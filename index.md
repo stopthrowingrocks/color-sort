@@ -1,16 +1,16 @@
 +++
-title = "We Move As One"
-date = 2025-08-09
+title = "Color Sort Explorer"
+date = 2025-11-03
 
 [extra]
-subtitle = "A game about killing your clones I guess."
-tab_title = "We Move As One"
+subtitle = "Play with and automate the Water Color Sort puzzle."
+tab_title = "Color Sort Explorer"
 +++
 
 <html>
   <head>
     <link id="css" rel="stylesheet" type="text/css" href="css/style.css">
-    <script type="module" src="build/new.js"></script>
+    <script type="module" src="build/main.js"></script>
   </head>
   <body>
     <div id="load">
@@ -19,7 +19,6 @@ tab_title = "We Move As One"
     </div>
     <div id="gm-container" hidden>
       <canvas id="gm-canvas"></canvas>
-      <div id="gm-level-title">It's-a good game</div>
     </div>
   </body>
 </html>
