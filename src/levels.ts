@@ -12,7 +12,7 @@ export enum Item {
   GREY,
   BROWN,
 };
-export const vialColors: string[] & {[i in Item]: string} = [
+export const itemColors: string[] & {[i in Item]: string} = [
   "#F44336", // 0
   "#FF8400", // 1
   "#FFDE4D", // 2

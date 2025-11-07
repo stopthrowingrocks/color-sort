@@ -1,4 +1,4 @@
-import { Level, levels, Item, RawVial } from "./levels.js";
+import { Level, levels, Item, RawVial, itemColors } from "./levels.js";
 import { GameState, Vial, ItemGroup, Move, TaggedMap, createTaggedMap, getStateId, getValidMovedStates, estimateDifficulty, getValidMoves, calcMove, winCondition, generateRandomPermutation, get_SCCs, computeSuccessProbabilities, getWinningStateId } from "./state.js";
 const DEBUG = false;
 
@@ -153,18 +153,6 @@ type DOM = {
     [a in typeof imgNames[number]]: HTMLImageElement
   }
 };
-
-const vialColors = [
-  "#F44336", // 0
-  "#FF8400", // 1
-  "#FFDE4D", // 2
-  "#9DEB44", // 3
-  "#06B56C", // 4
-  "#54E0FF", // 5
-  "#3870FF", // 6
-  "#A563FA", // 7
-  "#FFA1C8", // 8
-];
 
 const canvasWidth = 800;
 const canvasHeight = 300;
@@ -398,7 +386,7 @@ function getButtons(images: DOM["images"], Game: Game): Button[] {
 
           let vialTopItem = y + h - vialBorder - vial.height * itemHeight;
           for (let i = 0; i < vial.itemGroups.length; i++) {
-            ctx.fillStyle = vialColors[vial.itemGroups[i].item];
+            ctx.fillStyle = itemColors[vial.itemGroups[i].item];
             const itemsHeight = itemHeight * vial.itemGroups[i].count;
             ctx.fillRect(x + vialBorder, vialTopItem, itemWidth, itemsHeight);
             vialTopItem += itemsHeight;

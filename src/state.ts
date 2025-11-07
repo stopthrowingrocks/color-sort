@@ -1,5 +1,5 @@
 import { Matrix, solve as solveMatrix } from "ml-matrix";
-import {Item, RawVial} from "./levels";
+import {Item, RawVial} from "./levels.js";
 
 export type ItemGroup = {
   item: Item,
