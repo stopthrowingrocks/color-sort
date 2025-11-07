@@ -2,10 +2,11 @@
   "name": "color-sort",
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "esbuild src/* --outdir=build",
-    "watch": "esbuild src/* --outdir=build --watch",
+    "build": "esbuild src/* --bundle --outdir=build",
+    "watch": "esbuild src/* --bundle --outdir=build --watch",
     "start": "http-server"
   },
+  "type": "module",
   "author": "Marcus Luebke",
   "license": "GPLv3",
   "devDependencies": {
@@ -17,5 +18,8 @@
     "http-server": "^0.12.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0"
+  },
+  "dependencies": {
+    "ml-matrix": "^6.12.1"
   }
 }
