@@ -21,6 +21,37 @@
     <div id="gm-container" hidden>
       <div id="gm-title">Color Sort Explorer</div>
       <canvas id="gm-canvas"></canvas>
+
+      <!-- Controls area -->
+      <section id="controls" aria-label="Game controls">
+        <ul class="action-list">
+          <!-- One action -->
+          <li class="action-item">
+            <button class="action-button" type="button">
+              <img src="images/web.svg" class="action-icon">
+              <span class="action-text">Show winning moves.</span>
+            </button>
+            <!-- Optional associated message -->
+            <p class="action-message">
+              You can only undo the last three moves.
+            </p>
+          </li>
+
+          <!-- Another action -->
+          <li class="action-item">
+            <button class="action-button" type="button">
+              <span class="action-icon" aria-hidden="true">
+                <!-- icon -->
+              </span>
+              <span class="action-text">
+                <span class="action-title">Hint</span>
+                <span class="action-description">Show a suggested move.</span>
+              </span>
+            </button>
+            <!-- message is optional; omit if not needed -->
+          </li>
+        </ul>
+      </section>
     </div>
   </body>
 </html>
