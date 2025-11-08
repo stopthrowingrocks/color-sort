@@ -1,5 +1,5 @@
 import { Matrix, solve as solveMatrix } from "ml-matrix";
-import {Item, RawVial} from "./levels.js";
+import { Level, levels, Item, RawVial, itemColors } from "./levels.js";
 
 export type ItemGroup = {
   item: Item,
@@ -56,6 +56,49 @@ function copyStateWithNewVials(state: GameState, newVials: {idx: number, vial: V
   };
 }
 
+/**
+ * Converts an abstract level description into a playable GameState
+ */
+export function levelToState(level: Level, addEmpty: boolean = true): GameState {
+  const vials: Vial[] = [];
+  for (let i = 0; i < level.rawvials.length; i ++) {
+    let item: Item | null = null;
+    let count: number = 0;
+    const vial: Vial = {
+      itemGroups: [],
+      height: level.rawvials[i].length,
+    };
+    if (level.rawvials[i].length > level.vial_height) {
+      console.error(`Vial ${i} height exceeds maximum vial height ${level.vial_height}`);
+    }
+    for (let j = 0; j < level.rawvials[i].length; j ++) {
+      if (item === level.rawvials[i][j]) {
+        count ++;
+      } else {
+        if (item !== null) {
+          // Commit itemGroup
+          vial.itemGroups.push({item, count});
+        }
+        item = level.rawvials[i][j];
+        count = 1;
+      }
+    }
+    // Commit itemGroup
+    if (item !== null) vial.itemGroups.push({item, count});
+    vials.push(vial);
+  }
+  if (addEmpty) {
+    for (let i = 0; i < level.empty_vials; i ++) {
+      vials.push({itemGroups: [], height: 0});
+    }
+  }
+  return {vials, static: {
+    vial_height: level.vial_height,
+    num_colors: level.num_colors,
+    empty_vials: level.empty_vials,
+  }};
+}
+
 function stateToRawVials(state: GameState): RawVial[] {
   return state.vials.map(vial => vial.itemGroups.flatMap(itemGroup =>
     Array.from({length: itemGroup.count}, () => itemGroup.item))
@@ -78,6 +121,12 @@ export function getStateId(state: GameState): StateId {
     return 0;
   });
   return declare<"state", string>(rawvials.map(rawvial => rawvial.join(",")).join(";"));
+}
+export function stateIdToState(id: StateId, stat: GameState["static"]): GameState {
+  return levelToState({
+    rawvials: id.split(";").filter(s => s !== "").map(s => s.split(",").map(Number)),
+    ...stat,
+  }, false);
 }
 export function getWinningStateId(stat: GameState["static"]) {
   const vials: Vial[] = [
@@ -359,7 +408,7 @@ export function get_SCCs(originalStateId: StateId, tm: TaggedMap): StateId[][] {
         stack.push({
           id: childId,
           nextChildIdx: 0,
-          children: tm.get(originalStateId)?.children ?? [],
+          children: tm.get(childId)?.children ?? [],
         });
       }
       frame.nextChildIdx++;

@@ -2,8 +2,8 @@
   "name": "color-sort",
   "scripts": {
     "check": "tsc --noEmit",
-    "build": "esbuild src/* --bundle --outdir=build",
-    "watch": "esbuild src/* --bundle --outdir=build --watch",
+    "build": "esbuild src/* --bundle --outdir=build --global-name=exports",
+    "watch": "esbuild src/* --bundle --outdir=build --global-name=exports --watch",
     "start": "http-server"
   },
   "type": "module",

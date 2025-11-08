@@ -1,48 +1,9 @@
 import { Level, levels, Item, RawVial, itemColors } from "./levels.js";
-import { GameState, Vial, ItemGroup, Move, TaggedMap, createTaggedMap, getStateId, getValidMovedStates, estimateDifficulty, getValidMoves, calcMove, winCondition, generateRandomPermutation, get_SCCs, computeSuccessProbabilities, getWinningStateId } from "./state.js";
+export { Level, levels, Item, RawVial, itemColors } from "./levels.js";
+import { GameState, Vial, ItemGroup, Move, TaggedMap, levelToState, stateIdToState, createTaggedMap, getStateId, getValidMovedStates, estimateDifficulty, getValidMoves, calcMove, winCondition, generateRandomPermutation, get_SCCs, computeSuccessProbabilities, getWinningStateId } from "./state.js";
+export { GameState, Vial, ItemGroup, Move, TaggedMap, levelToState, createTaggedMap, stateIdToState, getStateId, getValidMovedStates, estimateDifficulty, getValidMoves, calcMove, winCondition, generateRandomPermutation, get_SCCs, computeSuccessProbabilities, getWinningStateId } from "./state.js";
 const DEBUG = false;
 
-
-/**
- * Converts an abstract level description into a playable GameState
- */
-function levelToState(level: Level): GameState {
-  const vials: Vial[] = [];
-  for (let i = 0; i < level.rawvials.length; i ++) {
-    let item: Item | null = null;
-    let count: number = 0;
-    const vial: Vial = {
-      itemGroups: [],
-      height: level.rawvials[i].length,
-    };
-    if (level.rawvials[i].length > level.vial_height) {
-      console.error(`Vial ${i} height exceeds maximum vial height ${level.vial_height}`);
-    }
-    for (let j = 0; j < level.rawvials[i].length; j ++) {
-      if (item === level.rawvials[i][j]) {
-        count ++;
-      } else {
-        if (item !== null) {
-          // Commit itemGroup
-          vial.itemGroups.push({item, count});
-        }
-        item = level.rawvials[i][j];
-        count = 1;
-      }
-    }
-    // Commit itemGroup
-    if (item !== null) vial.itemGroups.push({item, count});
-    vials.push(vial);
-  }
-  for (let i = 0; i < level.empty_vials; i ++) {
-    vials.push({itemGroups: [], height: 0});
-  }
-  return {vials, static: {
-    vial_height: level.vial_height,
-    num_colors: level.num_colors,
-    empty_vials: level.empty_vials,
-  }};
-}
 
 function fetchLevel(levelNumber: number): Level {
   return levels[levelNumber - 1];
@@ -86,7 +47,7 @@ function doMove(Game: Game, move: Move): void {
   }
 }
 
-let taggedMap: TaggedMap | undefined;
+export let taggedMap: TaggedMap | undefined;
 
 function getDefaultGameOther(originalState: GameState, settings?: Partial<Game["other"]>): Game["other"] {
   return {
@@ -437,6 +398,7 @@ function draw(DOM: DOM, Game: Game): void {
   })
 }
 
+export let Game: Game;
 window.addEventListener("load", async function () {
   // document.body.style.background = "linear-gradient(#000, #000414)";
   const canvas = document.getElementsByTagName("canvas")[0];
@@ -477,7 +439,7 @@ window.addEventListener("load", async function () {
   DOM.ctx.textBaseline = "top";
   DOM.ctx.font = "25px Share Tech Mono";
 
-  const Game: Game = loadFirstLevel();
+  Game = loadFirstLevel();
   // Don't draw or accept key presses until the fonts have loaded
   draw(DOM, Game);
 
