@@ -3,7 +3,7 @@ title = "Color Sort Explorer"
 date = 2025-11-03
 
 [extra]
-subtitle = "Play with and automate the Water Color Sort puzzle."
+subtitle = "GAME SIM. Play with and automate the Water Color Sort puzzle."
 tab_title = "Color Sort Explorer"
 +++
 
